@@ -138,3 +138,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# CSRF
+CSRF_TRUSTED_ORIGINS = ["http://api.yisanghaeplants.kro.kr", "https://api.yisanghaeplants.kro.kr"]
