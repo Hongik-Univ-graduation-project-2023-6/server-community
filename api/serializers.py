@@ -11,13 +11,14 @@ class ImageSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     # username = serializers.SerializerMethodField()
     images = ImageSerializer(many=True, read_only=True)
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'username', 'title', 'content', 'images', 'created_at']
+        fields = ['id', 'username', 'title', 'content', 'images', 'comments_count', 'created_at']
     
-    # def get_username(self, obj):
-    #     return obj.user.username
+    def get_comments_count(self, obj):
+        return obj.post_comments.count()
 
 class CommentSerializer(serializers.ModelSerializer):
     # username = serializers.SerializerMethodField()
@@ -25,3 +26,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'comment_post', 'username', 'content', 'created_at']
+
+class PostDetailSerializer(PostSerializer):
+    post_comments = CommentSerializer(many=True)
+
+    class Meta(PostSerializer.Meta):
+        fields = PostSerializer.Meta.fields + ['post_comments']
