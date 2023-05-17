@@ -41,9 +41,12 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         post = serializer.save()
 
-        uploaded_data = request.data.pop('post_images')
-        for uploaded_item in uploaded_data:
-            new_post_image = Image.objects.create(image_post=post, image_file=uploaded_item)
+        try:
+            uploaded_data = request.data.pop('post_images')
+            for uploaded_item in uploaded_data:
+                new_post_image = Image.objects.create(image_post=post, image_file=uploaded_item)
+        except:
+            pass
         
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
