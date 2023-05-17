@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'corsheaders', # CORS
     'rest_framework', # restframework
     'django_filters',
+    'storages',
     'rest_framework.authtoken',
 ]
 
@@ -145,3 +146,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = ["http://api.yisanghaeplants.kro.kr", "https://api.yisanghaeplants.kro.kr"]
+
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_REGION = env('AWS_REGION')
+
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')

@@ -10,12 +10,12 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     # username = serializers.SerializerMethodField()
-    images = ImageSerializer(many=True, read_only=True)
+    post_images = ImageSerializer(many=True, required=False)
     comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'username', 'title', 'content', 'images', 'comments_count', 'created_at']
+        fields = ['id', 'username', 'title', 'content', 'post_images', 'comments_count', 'created_at']
     
     def get_comments_count(self, obj):
         return obj.post_comments.count()
